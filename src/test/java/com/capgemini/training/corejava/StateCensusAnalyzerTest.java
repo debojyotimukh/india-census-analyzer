@@ -47,4 +47,11 @@ public class StateCensusAnalyzerTest {
         exception.expect(StateCensusAnalyzerException.class);
         censusAnalyzer.load(WRONG_EXT_FILE_PATH);
     }
+
+    @Test
+    public void correctFileButWrongHeaderShouldThrowException() throws StateCensusAnalyzerException {
+        final String WRONG_EXT_FILE_PATH="src/test/resources/Wrong_header_data.csv";
+        exception.expect(StateCensusAnalyzerException.class);
+        censusAnalyzer.load(WRONG_EXT_FILE_PATH);
+    }
 }
