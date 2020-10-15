@@ -17,7 +17,7 @@ public final class StateCensusAnalyzer {
     }
 
     public void load(final String filePath) throws StateCensusAnalyzerException {
-        final String[] expectedHeader = { "Sr No.", "State Name", "TIN", "Population", "State Code" };
+        final String[] expectedHeader = { "State Name", "TIN", "Population", "State Code" };
         if (!FilenameUtils.getExtension(filePath).equalsIgnoreCase("CSV"))
             throw new StateCensusAnalyzerException("Wrong file extension!");
 
@@ -49,7 +49,7 @@ public final class StateCensusAnalyzer {
     private static boolean checkDelimiter(final String filepath, final char c) throws IOException {
         final BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(filepath));
         final String[] columns = bufferedReader.readLine().split(String.valueOf(c));
-        return columns.length == 5;
+        return columns.length == 4;
     }
 
     public int countEntries() throws StateCensusAnalyzerException {
