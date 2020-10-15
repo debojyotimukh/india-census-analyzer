@@ -5,8 +5,12 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Iterator;
 
 import com.opencsv.CSVReader;
+import com.opencsv.bean.CsvToBean;
+import com.opencsv.bean.CsvToBeanBuilder;
+
 import org.apache.commons.io.FilenameUtils;
 
 public final class StateCensusAnalyzer {
@@ -23,6 +27,7 @@ public final class StateCensusAnalyzer {
 
         try (Reader reader = Files.newBufferedReader(Paths.get(filePath));
                 CSVReader csvReader = new CSVReader(reader);) {
+
             if (!checkDelimiter(filePath, ','))
                 throw new StateCensusAnalyzerException("Illegal separator!");
             if (!checkHeader(csvReader, expectedHeader))
@@ -63,6 +68,24 @@ public final class StateCensusAnalyzer {
         } catch (final Exception e) {
             throw new StateCensusAnalyzerException();
         }
+        return count;
+    }
+
+    public int readStateCodes() throws StateCensusAnalyzerException {
+        int count = 0;
+        try (Reader reader = Files.newBufferedReader(Paths.get(this.dataPath));) {
+
+            CsvToBean<CSVStates> csvToBean = new CsvToBeanBuilder<CSVStates>(reader).withType(CSVStates.class).build();
+            Iterator<CSVStates> iterator = csvToBean.iterator();
+            while (iterator.hasNext()) {
+                iterator.next();
+                count++;
+            }
+
+        } catch (IOException e) {
+            throw new StateCensusAnalyzerException("Failed to read state codes!");
+        }
+
         return count;
     }
 }

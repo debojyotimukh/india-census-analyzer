@@ -38,6 +38,4 @@ public class CSVStates {
         return "CSVStates [code=" + code + ", state=" + state + "]";
     }
 
-    
-    
 }
