@@ -1,6 +1,6 @@
 package com.capgemini.training.corejava;
 
-public class StateCensusAnalyzerException extends RuntimeException{
+public class StateCensusAnalyzerException extends Exception{
 
     /**
      *
