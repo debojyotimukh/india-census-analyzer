@@ -7,6 +7,8 @@ import java.nio.file.Paths;
 
 import com.opencsv.CSVReader;
 
+import org.apache.commons.io.FilenameUtils;
+
 /**
  * Hello world!
  */
@@ -17,18 +19,21 @@ public final class StateCensusAnalyzer {
         System.out.println("Welcome to India State Census Analyzer!");
     }
 
-    public void load(String filePath) {
-        try (Reader reader = Files.newBufferedReader(Paths.get(filePath));
-                CSVReader csvReader = new CSVReader(reader);) {
-            this.dataPath = filePath;
-        } catch (IOException e) {
-            throw new StateCensusAnalyzerException();
-        } catch (NullPointerException e2) {
-            throw new StateCensusAnalyzerException("File does not exists");
-        }
+    public void load(String filePath) throws StateCensusAnalyzerException {
+        if (!FilenameUtils.getExtension(filePath).equalsIgnoreCase("CSV"))
+            throw new StateCensusAnalyzerException("Wrong file extension!");
+
+            try (Reader reader = Files.newBufferedReader(Paths.get(filePath));
+                    CSVReader csvReader = new CSVReader(reader);) {
+                this.dataPath = filePath;
+            } catch (IOException e) {
+                throw new StateCensusAnalyzerException();
+            } catch (NullPointerException e2) {
+                throw new StateCensusAnalyzerException("File does not exists");
+            }
     }
 
-    public int countEntries() {
+    public int countEntries() throws StateCensusAnalyzerException {
         int count = 0;
         try (Reader reader = Files.newBufferedReader(Paths.get(dataPath));
                 CSVReader csvReader = new CSVReader(reader);) {
