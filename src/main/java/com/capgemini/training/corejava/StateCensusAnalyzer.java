@@ -1,5 +1,6 @@
 package com.capgemini.training.corejava;
 
+import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -20,8 +21,10 @@ public final class StateCensusAnalyzer {
         try (Reader reader = Files.newBufferedReader(Paths.get(filePath));
                 CSVReader csvReader = new CSVReader(reader);) {
             this.dataPath = filePath;
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            throw new StateCensusAnalyzerException();
+        } catch (NullPointerException e2) {
+            throw new StateCensusAnalyzerException("File does not exists");
         }
     }
 
@@ -34,7 +37,7 @@ public final class StateCensusAnalyzer {
                 count++;
 
         } catch (Exception e) {
-            // duck
+            throw new StateCensusAnalyzerException();
         }
         return count;
     }
