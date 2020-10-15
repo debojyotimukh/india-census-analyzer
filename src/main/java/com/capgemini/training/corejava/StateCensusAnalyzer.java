@@ -25,7 +25,7 @@ public final class StateCensusAnalyzer {
                 CSVReader csvReader = new CSVReader(reader);) {
             if (!checkDelimiter(filePath, ','))
                 throw new StateCensusAnalyzerException("Illegal separator!");
-            if (!checkHeader(csvReader,expectedHeader))
+            if (!checkHeader(csvReader, expectedHeader))
                 throw new StateCensusAnalyzerException("Wrong column header!");
 
             this.dataPath = filePath;
@@ -36,11 +36,11 @@ public final class StateCensusAnalyzer {
         }
     }
 
-    private static boolean checkHeader(CSVReader csvReader,String[] expectedHeader) throws IOException {
-        
+    private static boolean checkHeader(CSVReader csvReader, String[] expectedHeader) throws IOException {
+
         String[] header = csvReader.peek();
         for (int i = 0; i < header.length; i++) {
-            if(!header[i].equalsIgnoreCase(expectedHeader[i]))
+            if (!header[i].equalsIgnoreCase(expectedHeader[i]))
                 return false;
         }
         return true;
