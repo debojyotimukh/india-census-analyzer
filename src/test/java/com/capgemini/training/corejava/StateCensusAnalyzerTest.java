@@ -40,4 +40,11 @@ public class StateCensusAnalyzerTest {
         censusAnalyzer.load(WRONG_EXT_FILE_PATH);
         Assert.assertEquals(37, censusAnalyzer.countEntries());
     }
+
+    @Test
+    public void correctFileButWrongDelimiterShouldThrowException() throws StateCensusAnalyzerException {
+        final String WRONG_EXT_FILE_PATH="src/test/resources/Wrong_Delimited_data.csv";
+        exception.expect(StateCensusAnalyzerException.class);
+        censusAnalyzer.load(WRONG_EXT_FILE_PATH);
+    }
 }
