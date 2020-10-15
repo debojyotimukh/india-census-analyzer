@@ -54,4 +54,10 @@ public class StateCensusAnalyzerTest {
         exception.expect(StateCensusAnalyzerException.class);
         censusAnalyzer.load(WRONG_EXT_FILE_PATH);
     }
+
+    @Test
+    public void numberOfStateCodeDataCheck() throws StateCensusAnalyzerException {
+        censusAnalyzer.load(FILE_PATH);
+        Assert.assertEquals(36, censusAnalyzer.readStateCode());
+    }
 }
