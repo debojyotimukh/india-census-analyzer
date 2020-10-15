@@ -58,6 +58,6 @@ public class StateCensusAnalyzerTest {
     @Test
     public void numberOfStateCodeDataCheck() throws StateCensusAnalyzerException {
         censusAnalyzer.load(FILE_PATH);
-        Assert.assertEquals(36, censusAnalyzer.readStateCode());
+        Assert.assertEquals(36, censusAnalyzer.readStateCodes());
     }
 }
