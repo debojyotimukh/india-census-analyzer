@@ -19,7 +19,7 @@ public class StateCensusAnalyzerTest {
     }
 
     @Test
-    public void countEntriesCheck() {
+    public void countEntriesCheck() throws StateCensusAnalyzerException {
         censusAnalyzer.load(FILE_PATH);
         Assert.assertEquals(37, censusAnalyzer.countEntries());
     }
@@ -31,5 +31,13 @@ public class StateCensusAnalyzerTest {
         censusAnalyzer.load(WRONG_PATH);
         Assert.assertEquals(37, censusAnalyzer.countEntries());
 
+    }
+
+    @Test
+    public void wrongFileTypeButCorrectDataWillThrowException() throws StateCensusAnalyzerException {
+        final String WRONG_EXT_FILE_PATH="src/test/resources/IndianStateCensusData_copy.txt";
+        exception.expect(StateCensusAnalyzerException.class);
+        censusAnalyzer.load(WRONG_EXT_FILE_PATH);
+        Assert.assertEquals(37, censusAnalyzer.countEntries());
     }
 }

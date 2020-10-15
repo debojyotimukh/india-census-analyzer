@@ -1,0 +1,37 @@
+﻿Sr No.,State Name,TIN,Population,State Code
+1,Uttar Pradesh,9,199812341,UP
+2,Maharashtra,27,112374333,MH
+3,Bihar,10,104099452,BR
+4,West Bengal,19,91276115,WB
+5,Madhya Pradesh,23,72626809,MP
+6,Tamil Nadu,33,72147030,TN
+7,Rajasthan,8,68548437,RJ
+8,Karnataka,29,61095297,KA
+9,Gujarat,24,60439692,GJ
+10,Andhra Pradesh,37,49577103,AP
+11,Odisha,21,41974219,OR
+12,Telangana,36,35003674,TS
+13,Kerala,32,33406061,KL
+14,Jharkhand,20,32988134,JS
+15,Assam,18,31205576,AS
+16,Punjab,3,27743338,PB
+17,Chhattisgarh,22,25545198,CG
+18,Haryana,6,25351462,HR
+19,Delhi,7,16787941,DL
+20,Jammu and Kashmir,1,12267032,JK
+21,Uttarakhand,5,10086292,UK
+22,Himachal Pradesh,2,6864602,HP
+23,Tripura,16,3673917,TR
+24,Meghalaya,17,2966889,ML
+25,Manipur,14,2570390,MN
+26,Nagaland,13,1978502,NL
+27,Goa,30,1458545,GA
+28,Arunachal Pradesh,12,1383727,AR
+29,Puducherry,34,1247953,PY
+30,Mizoram,15,1097206,MZ
+31,Chandigarh,4,1055450,CH
+32,Sikkim,11,610577,SK
+33,Dadra and Nagar Haveli and Daman and Diu,26,585764,DN
+34,Andaman and Nicobar Islands,35,380581,AN
+35,Ladakh,38,274000,LA
+36,Lakshadweep,31,64473,LD
