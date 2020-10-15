@@ -9,9 +9,6 @@ import java.nio.file.Paths;
 import com.opencsv.CSVReader;
 import org.apache.commons.io.FilenameUtils;
 
-/**
- * Hello world!
- */
 public final class StateCensusAnalyzer {
     private String dataPath;
 
@@ -39,7 +36,7 @@ public final class StateCensusAnalyzer {
         }
     }
 
-    private boolean checkHeader(CSVReader csvReader,String[] expectedHeader) throws IOException {
+    private static boolean checkHeader(CSVReader csvReader,String[] expectedHeader) throws IOException {
         
         String[] header = csvReader.peek();
         for (int i = 0; i < header.length; i++) {
