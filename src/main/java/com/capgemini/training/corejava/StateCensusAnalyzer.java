@@ -15,20 +15,6 @@ import org.apache.commons.io.FilenameUtils;
 
 public final class StateCensusAnalyzer {
 
-    private <T> Iterable<T> getCSVIterable(Reader reader, Class<T> clazz) throws StateCensusAnalyzerException {
-        try {
-            CsvToBean<T> csvToBean = new CsvToBeanBuilder<T>(reader).withSeparator(',').withThrowExceptions(true)
-                    .withType(clazz).build();
-            Iterator<T> iterator = csvToBean.iterator();
-            Iterable<T> csvIterable = () -> iterator;
-            return csvIterable;
-
-        } catch (RuntimeException re) {
-            throw new StateCensusAnalyzerException(re.getMessage());
-        }
-
-    }
-
     private <T> int getCount(Iterable<T> csvIterable) throws StateCensusAnalyzerException {
         return (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
     }
@@ -54,13 +40,18 @@ public final class StateCensusAnalyzer {
 
         try (Reader reader = Files.newBufferedReader(Paths.get(filepath));) {
 
-            return getCount(getCSVIterable(reader, CSVStates.class));
+            ICSVBuilder<CSVStates> csvBuilder = CSVBuilderFactory.createCSVBuilder();
+            Iterable<CSVStates> csvIterator = csvBuilder.getCSVFileIterable(reader, CSVStates.class);
+
+            return getCount(csvIterator);
 
         } catch (NullPointerException npe) {
             throw new StateCensusAnalyzerException(npe.getMessage());
 
         } catch (IOException e) {
             throw new StateCensusAnalyzerException("Failed to read state codes!");
+        } catch (CSVBuilderException csvbe) {
+            throw new StateCensusAnalyzerException(csvbe.getMessage());
         }
     }
 
@@ -73,15 +64,19 @@ public final class StateCensusAnalyzer {
 
         try (Reader reader = Files.newBufferedReader(Paths.get(filepath));) {
 
-            return getCount(getCSVIterable(reader, IndianStateCensus.class));
+            ICSVBuilder<IndianStateCensus> csvBuilder = CSVBuilderFactory.createCSVBuilder();
+            Iterable<IndianStateCensus> csvIterator = csvBuilder.getCSVFileIterable(reader, IndianStateCensus.class);
+
+            return getCount(csvIterator);
 
         } catch (NullPointerException npe) {
             throw new StateCensusAnalyzerException("File not Found!");
 
         } catch (IOException ioe) {
             throw new StateCensusAnalyzerException(ioe.getMessage());
+        } catch (CSVBuilderException csvbe) {
+            throw new StateCensusAnalyzerException(csvbe.getMessage());
         }
-
     }
 
     public static void main(String[] args) throws StateCensusAnalyzerException {
