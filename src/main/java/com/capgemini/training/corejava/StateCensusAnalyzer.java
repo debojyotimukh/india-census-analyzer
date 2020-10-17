@@ -6,86 +6,84 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Iterator;
+import java.util.stream.StreamSupport;
 
-import com.opencsv.CSVReader;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 
 import org.apache.commons.io.FilenameUtils;
 
 public final class StateCensusAnalyzer {
-    private String dataPath;
 
-    public static void main(final String[] args) {
-        System.out.println("Welcome to India State Census Analyzer!");
+    private <T> int getCount(Iterable<T> csvIterable) throws StateCensusAnalyzerException {
+        return (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
     }
 
-    public void load(final String filePath) throws StateCensusAnalyzerException {
-        final String[] expectedHeader = { "State Name", "TIN", "Population", "State Code" };
-        if (!FilenameUtils.getExtension(filePath).equalsIgnoreCase("CSV"))
-            throw new StateCensusAnalyzerException("Wrong file extension!");
-
-        try (Reader reader = Files.newBufferedReader(Paths.get(filePath));
-                CSVReader csvReader = new CSVReader(reader);) {
-
-            if (!checkDelimiter(filePath, ','))
-                throw new StateCensusAnalyzerException("Illegal separator!");
-            if (!checkHeader(csvReader, expectedHeader))
-                throw new StateCensusAnalyzerException("Wrong column header!");
-
-            this.dataPath = filePath;
-        } catch (final IOException e) {
-            throw new StateCensusAnalyzerException();
-        } catch (final NullPointerException e2) {
-            throw new StateCensusAnalyzerException("File does not exists");
+    private boolean checkSeparator(final String filepath, final char expectedSeperator) {
+        boolean isWrongDelimiter = false;
+        try (Reader reader = Files.newBufferedReader(Paths.get(filepath));) {
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            isWrongDelimiter = bufferedReader.readLine().contains(String.valueOf(expectedSeperator));
+        } catch (Exception e) {
+            // TODO: handle exception
         }
+
+        return isWrongDelimiter;
     }
 
-    private static boolean checkHeader(final CSVReader csvReader, final String[] expectedHeader) throws IOException {
+    public int getStateCodesCount(String filepath) throws StateCensusAnalyzerException {
+        if (!FilenameUtils.getExtension(filepath).equalsIgnoreCase("csv"))
+            throw new StateCensusAnalyzerException("Wrong file extension, expected csv");
 
-        final String[] header = csvReader.peek();
-        for (int i = 0; i < header.length; i++) {
-            if (!header[i].equalsIgnoreCase(expectedHeader[i]))
-                return false;
-        }
-        return true;
-    }
+        if (!checkSeparator(filepath, ','))
+            throw new StateCensusAnalyzerException("Wrong Delimiter!");
 
-    private static boolean checkDelimiter(final String filepath, final char c) throws IOException {
-        final BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(filepath));
-        final String[] columns = bufferedReader.readLine().split(String.valueOf(c));
-        return columns.length == 4;
-    }
+        try (Reader reader = Files.newBufferedReader(Paths.get(filepath));) {
 
-    public int countEntries() throws StateCensusAnalyzerException {
-        int count = 0;
-        try (Reader reader = Files.newBufferedReader(Paths.get(dataPath));
-                CSVReader csvReader = new CSVReader(reader);) {
-
-            while (csvReader.readNext() != null)
-                count++;
-
-        } catch (final Exception e) {
-            throw new StateCensusAnalyzerException();
-        }
-        return count;
-    }
-
-    public int readStateCodes() throws StateCensusAnalyzerException {
-        int count = 0;
-        try (Reader reader = Files.newBufferedReader(Paths.get(this.dataPath));) {
-
-            CsvToBean<CSVStates> csvToBean = new CsvToBeanBuilder<CSVStates>(reader).withType(CSVStates.class).build();
+            CsvToBean<CSVStates> csvToBean = new CsvToBeanBuilder<CSVStates>(reader).withSeparator(',')
+                    .withThrowExceptions(true).withType(CSVStates.class).build();
             Iterator<CSVStates> iterator = csvToBean.iterator();
-            while (iterator.hasNext()) {
-                iterator.next();
-                count++;
-            }
+            Iterable<CSVStates> csvIterable = () -> iterator;
+            return getCount(csvIterable);
+
+        } catch (NullPointerException npe) {
+            throw new StateCensusAnalyzerException(npe.getMessage());
 
         } catch (IOException e) {
             throw new StateCensusAnalyzerException("Failed to read state codes!");
         }
+    }
 
-        return count;
+    public int getStateCensusCount(String filepath) throws StateCensusAnalyzerException {
+        if (!FilenameUtils.getExtension(filepath).equalsIgnoreCase("csv"))
+            throw new StateCensusAnalyzerException("Wrong file extension, expected csv!");
+
+        if (!checkSeparator(filepath, ','))
+            throw new StateCensusAnalyzerException("Wrong Delimiter!");
+
+        try (Reader reader = Files.newBufferedReader(Paths.get(filepath));) {
+
+            CsvToBean<IndianStateCensus> csvToBean = new CsvToBeanBuilder<IndianStateCensus>(reader).withSeparator(',')
+                    .withType(IndianStateCensus.class).withThrowExceptions(true).build();
+            Iterator<IndianStateCensus> iterator = csvToBean.iterator();
+            Iterable<IndianStateCensus> csvIterable = () -> iterator;
+
+            return getCount(csvIterable);
+
+        } catch (NullPointerException npe) {
+            throw new StateCensusAnalyzerException("File not Found!");
+
+        } catch (IOException ioe) {
+            throw new StateCensusAnalyzerException(ioe.getMessage());
+        } catch (RuntimeException re) {
+            throw new StateCensusAnalyzerException(re.getMessage());
+        }
+
+    }
+
+    public static void main(String[] args) throws StateCensusAnalyzerException {
+
+        System.out.println("Welcome to India State Census Analyzer!");
+
     }
 }
