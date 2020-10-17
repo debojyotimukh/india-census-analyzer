@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.Rule;
 
 public class StateCensusAnalyzerTest {
-    public static final String FILE_PATH = "src/test/resources/IndianStateCensusData.csv";
     public StateCensusAnalyzer censusAnalyzer;
 
     @Rule
@@ -20,44 +19,45 @@ public class StateCensusAnalyzerTest {
 
     @Test
     public void countEntriesCheck() throws StateCensusAnalyzerException {
-        censusAnalyzer.load(FILE_PATH);
-        Assert.assertEquals(37, censusAnalyzer.countEntries());
+        final String FILE_PATH = "src/test/resources/IndianStateCensus.csv";
+        Assert.assertEquals(36, censusAnalyzer.getStateCensusCount(FILE_PATH));
     }
 
     @Test
-    public void wrongCSVFileExceptionTest() throws StateCensusAnalyzerException {
+    public void wrongFileExceptionTest() throws StateCensusAnalyzerException {
         final String WRONG_PATH = "../censusanalyzer/dat/data.csv";
         exception.expect(StateCensusAnalyzerException.class);
-        censusAnalyzer.load(WRONG_PATH);
-        Assert.assertEquals(37, censusAnalyzer.countEntries());
+        Assert.assertEquals(37, censusAnalyzer.getStateCensusCount(WRONG_PATH));
 
     }
 
     @Test
     public void wrongFileTypeButCorrectDataWillThrowException() throws StateCensusAnalyzerException {
-        final String WRONG_EXT_FILE_PATH = "src/test/resources/IndianStateCensusData_copy.txt";
+        final String WRONG_TYPE_FILE_PATH = "src/test/resources/IndianStateCensus.txt";
         exception.expect(StateCensusAnalyzerException.class);
-        censusAnalyzer.load(WRONG_EXT_FILE_PATH);
-        Assert.assertEquals(37, censusAnalyzer.countEntries());
+        exception.expectMessage("Wrong file extension, expected csv!");
+        Assert.assertEquals(37, censusAnalyzer.getStateCensusCount(WRONG_TYPE_FILE_PATH));
     }
 
     @Test
     public void correctFileButWrongDelimiterShouldThrowException() throws StateCensusAnalyzerException {
-        final String WRONG_EXT_FILE_PATH = "src/test/resources/Wrong_Delimited_data.csv";
+        final String WRONG_SEPARATOR_FILE_PATH = "src/test/resources/IndianStateCensus_wrong_delimiter.csv";
         exception.expect(StateCensusAnalyzerException.class);
-        censusAnalyzer.load(WRONG_EXT_FILE_PATH);
+        exception.expectMessage("Wrong Delimiter!");
+        censusAnalyzer.getStateCensusCount(WRONG_SEPARATOR_FILE_PATH);
     }
 
     @Test
     public void correctFileButWrongHeaderShouldThrowException() throws StateCensusAnalyzerException {
-        final String WRONG_EXT_FILE_PATH = "src/test/resources/Wrong_header_data.csv";
+        final String WRONG_HEADER_FILE_PATH = "src/test/resources/IndianStateCensus_wrong_header.csv";
         exception.expect(StateCensusAnalyzerException.class);
-        censusAnalyzer.load(WRONG_EXT_FILE_PATH);
+        exception.expectMessage("Error capturing CSV header!");
+        Assert.assertEquals(36, censusAnalyzer.getStateCensusCount(WRONG_HEADER_FILE_PATH));
     }
 
     @Test
     public void numberOfStateCodeDataCheck() throws StateCensusAnalyzerException {
-        censusAnalyzer.load(FILE_PATH);
-        Assert.assertEquals(36, censusAnalyzer.readStateCodes());
+        final String FILE_PATH = "src/test/resources/IndianStateCodes.csv";
+        Assert.assertEquals(36, censusAnalyzer.getStateCodesCount(FILE_PATH));
     }
 }
