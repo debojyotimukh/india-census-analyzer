@@ -24,8 +24,8 @@ public final class StateCensusAnalyzer {
         try (Reader reader = Files.newBufferedReader(Paths.get(filepath));) {
             BufferedReader bufferedReader = new BufferedReader(reader);
             isWrongDelimiter = bufferedReader.readLine().contains(String.valueOf(expectedSeperator));
-        } catch (Exception e) {
-            // TODO: handle exception
+        } catch (IOException e) {
+            // duck, will be thrown again by the calling method
         }
 
         return isWrongDelimiter;
