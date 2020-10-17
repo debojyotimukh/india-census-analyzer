@@ -54,5 +54,5 @@ public class stateCodeTest {
         final String FILE_PATH = "src/test/resources/IndianStateCodes.csv";
         Assert.assertEquals(36, censusAnalyzer.getStateCodesCount(FILE_PATH));
     }
-    
+
 }
