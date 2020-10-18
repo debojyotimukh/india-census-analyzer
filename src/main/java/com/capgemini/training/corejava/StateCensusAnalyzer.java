@@ -5,11 +5,11 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Iterator;
 import java.util.stream.StreamSupport;
 
-import com.opencsv.bean.CsvToBean;
-import com.opencsv.bean.CsvToBeanBuilder;
+import com.capgemini.training.iohelper.CSVBuilderException;
+import com.capgemini.training.iohelper.CSVBuilderFactory;
+import com.capgemini.training.iohelper.ICSVBuilder;
 
 import org.apache.commons.io.FilenameUtils;
 

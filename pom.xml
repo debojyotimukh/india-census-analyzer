@@ -31,17 +31,10 @@
       <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/com.opencsv/opencsv -->
     <dependency>
-      <groupId>com.opencsv</groupId>
-      <artifactId>opencsv</artifactId>
-      <version>4.6</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <version>2.4</version>
+      <groupId>com.capgemini.training.iohelper</groupId>
+      <artifactId>csv-helper</artifactId>
+      <version>1.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
   <build>
