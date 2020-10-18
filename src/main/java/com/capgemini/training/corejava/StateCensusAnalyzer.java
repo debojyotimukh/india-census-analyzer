@@ -84,7 +84,7 @@ public final class StateCensusAnalyzer {
         }
     }
 
-    private <T extends Object> String sortBy(String filepath, Comparator<T> comparator, Class<T> clazz)
+    private <T> String sortBy(String filepath, Comparator<T> comparator, Class<T> clazz)
             throws StateCensusAnalyzerException {
         if (!FilenameUtils.getExtension(filepath).equalsIgnoreCase("csv"))
             throw new StateCensusAnalyzerException("Wrong file extension, expected csv!");
