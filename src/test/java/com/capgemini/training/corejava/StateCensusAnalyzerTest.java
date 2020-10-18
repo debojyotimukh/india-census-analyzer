@@ -70,6 +70,7 @@ public class StateCensusAnalyzerTest {
         String sortCensusDataByState = censusAnalyzer.sortCensusDataByState(FILE_PATH);
         IndianStateCensus[] stateCensusArray = new Gson().fromJson(sortCensusDataByState, IndianStateCensus[].class);
         Assert.assertThat(stateCensusArray[0].getStateName(), CoreMatchers.is("Andaman and Nicobar Islands"));
-
+        Assert.assertThat(stateCensusArray[stateCensusArray.length-1].getStateName(), CoreMatchers.is("West Bengal"));   
     }
+
 }
