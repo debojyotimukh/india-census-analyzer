@@ -84,7 +84,8 @@ public final class StateCensusAnalyzer {
         }
     }
 
-    private <T extends Object> String sortBy(String filepath, Comparator<T> comparator,Class<T> clazz) throws StateCensusAnalyzerException {
+    private <T extends Object> String sortBy(String filepath, Comparator<T> comparator, Class<T> clazz)
+            throws StateCensusAnalyzerException {
         if (!FilenameUtils.getExtension(filepath).equalsIgnoreCase("csv"))
             throw new StateCensusAnalyzerException("Wrong file extension, expected csv!");
 
@@ -94,8 +95,7 @@ public final class StateCensusAnalyzer {
         try (Reader reader = Files.newBufferedReader(Paths.get(filepath));) {
             ICSVBuilder<T> csvBuilder = CSVBuilderFactory.createCSVBuilder();
             List<T> list = csvBuilder.getLst(reader, clazz);
-            List<T> sortedList = list.stream()
-                    .sorted(comparator).collect(Collectors.toList());
+            List<T> sortedList = list.stream().sorted(comparator).collect(Collectors.toList());
 
             return new Gson().toJson(sortedList);
 
@@ -106,14 +106,30 @@ public final class StateCensusAnalyzer {
         }
     }
 
-    public String sortCensusDataByState(String filepath) throws StateCensusAnalyzerException {
-        return sortBy(filepath, Comparator.comparing(IndianStateCensus::getStateName), IndianStateCensus.class);
-
+    public String sortCensusDataByState(String filepath) {
+        String sortedByStateName = null;
+        try {
+            sortedByStateName = sortBy(filepath, Comparator.comparing(IndianStateCensus::getStateName),
+                    IndianStateCensus.class);
+        } catch (StateCensusAnalyzerException e) {
+            e.getMessage();
+        }
+        return sortedByStateName;
     }
 
     public static void main(String[] args) throws StateCensusAnalyzerException {
 
         System.out.println("Welcome to India State Census Analyzer!");
 
+    }
+
+    public String sortCensusDataByStateCode(String filepath) {
+        String sortedByCode = null;
+        try {
+            sortedByCode = sortBy(filepath, Comparator.comparing(CSVStates::getCode), CSVStates.class);
+        } catch (StateCensusAnalyzerException e) {
+            e.getMessage();
+        }
+        return sortedByCode;
     }
 }
