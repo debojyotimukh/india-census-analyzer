@@ -84,7 +84,7 @@ public final class StateCensusAnalyzer {
         }
     }
 
-    public String sortCensusDataByState(String filepath) throws StateCensusAnalyzerException {
+    private <T extends Object> String sortBy(String filepath, Comparator<T> comparator,Class<T> clazz) throws StateCensusAnalyzerException {
         if (!FilenameUtils.getExtension(filepath).equalsIgnoreCase("csv"))
             throw new StateCensusAnalyzerException("Wrong file extension, expected csv!");
 
@@ -92,19 +92,22 @@ public final class StateCensusAnalyzer {
             throw new StateCensusAnalyzerException("Wrong Delimiter!");
 
         try (Reader reader = Files.newBufferedReader(Paths.get(filepath));) {
-            ICSVBuilder<IndianStateCensus> csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            List<IndianStateCensus> list = csvBuilder.getLst(reader, IndianStateCensus.class);
-            List<IndianStateCensus> sortedList = list.stream()
-                    .sorted(Comparator.comparing(IndianStateCensus::getStateName)).collect(Collectors.toList());
+            ICSVBuilder<T> csvBuilder = CSVBuilderFactory.createCSVBuilder();
+            List<T> list = csvBuilder.getLst(reader, clazz);
+            List<T> sortedList = list.stream()
+                    .sorted(comparator).collect(Collectors.toList());
 
             return new Gson().toJson(sortedList);
 
-        } catch(IOException ioe){
+        } catch (IOException ioe) {
             throw new StateCensusAnalyzerException(ioe.getMessage());
-        }
-        catch (CSVBuilderException e) {
+        } catch (CSVBuilderException e) {
             throw new StateCensusAnalyzerException(e.getMessage());
         }
+    }
+
+    public String sortCensusDataByState(String filepath) throws StateCensusAnalyzerException {
+        return sortBy(filepath, Comparator.comparing(IndianStateCensus::getStateName), IndianStateCensus.class);
 
     }
 
