@@ -1,10 +1,13 @@
 package com.capgemini.training.corejava;
 
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import com.google.gson.Gson;
+
+import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class StateCensusAnalyzerTest {
     public StateCensusAnalyzer censusAnalyzer;
@@ -59,5 +62,14 @@ public class StateCensusAnalyzerTest {
     public void checkNumberOfEntriesFromStateCodeData() throws StateCensusAnalyzerException {
         final String FILE_PATH = "src/test/resources/IndianStateCodes.csv";
         Assert.assertEquals(36, censusAnalyzer.getStateCodesCount(FILE_PATH));
+    }
+
+    @Test
+    public void checkOrderAfterSortingByStateName() throws StateCensusAnalyzerException {
+        final String FILE_PATH = "src/test/resources/IndianStateCensus.csv";
+        String sortCensusDataByState = censusAnalyzer.sortCensusDataByState(FILE_PATH);
+        IndianStateCensus[] stateCensusArray = new Gson().fromJson(sortCensusDataByState, IndianStateCensus[].class);
+        Assert.assertThat(stateCensusArray[0].getStateName(), CoreMatchers.is("Andaman and Nicobar Islands"));
+
     }
 }
