@@ -73,4 +73,12 @@ public class StateCensusAnalyzerTest {
         Assert.assertThat(stateCensusArray[stateCensusArray.length-1].getStateName(), CoreMatchers.is("West Bengal"));   
     }
 
+    @Test 
+    public void checkOrderAfterSortingByStateCodes() throws StateCensusAnalyzerException {
+        final String FILE_PATH = "src/test/resources/IndianStateCodes.csv";
+        String sortCensusDataByStateCode = censusAnalyzer.sortCensusDataByStateCode(FILE_PATH);
+        CSVStates[] stateCodeArray = new Gson().fromJson(sortCensusDataByStateCode, CSVStates[].class);
+        Assert.assertThat(stateCodeArray[0].getCode(), CoreMatchers.is("AN"));
+        Assert.assertThat(stateCodeArray[stateCodeArray.length-1].getCode(), CoreMatchers.is("WB"));
+    }
 }
