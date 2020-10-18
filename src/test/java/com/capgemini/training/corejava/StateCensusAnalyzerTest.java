@@ -1,6 +1,13 @@
 package com.capgemini.training.corejava;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
@@ -70,15 +77,37 @@ public class StateCensusAnalyzerTest {
         String sortCensusDataByState = censusAnalyzer.sortCensusDataByState(FILE_PATH);
         IndianStateCensus[] stateCensusArray = new Gson().fromJson(sortCensusDataByState, IndianStateCensus[].class);
         Assert.assertThat(stateCensusArray[0].getStateName(), CoreMatchers.is("Andaman and Nicobar Islands"));
-        Assert.assertThat(stateCensusArray[stateCensusArray.length-1].getStateName(), CoreMatchers.is("West Bengal"));   
+        Assert.assertThat(stateCensusArray[stateCensusArray.length - 1].getStateName(), CoreMatchers.is("West Bengal"));
     }
 
-    @Test 
+    @Test
     public void checkOrderAfterSortingByStateCodes() throws StateCensusAnalyzerException {
         final String FILE_PATH = "src/test/resources/IndianStateCodes.csv";
         String sortCensusDataByStateCode = censusAnalyzer.sortCensusDataByStateCode(FILE_PATH);
         CSVStates[] stateCodeArray = new Gson().fromJson(sortCensusDataByStateCode, CSVStates[].class);
         Assert.assertThat(stateCodeArray[0].getCode(), CoreMatchers.is("AN"));
-        Assert.assertThat(stateCodeArray[stateCodeArray.length-1].getCode(), CoreMatchers.is("WB"));
+        Assert.assertThat(stateCodeArray[stateCodeArray.length - 1].getCode(), CoreMatchers.is("WB"));
+    }
+
+    @Test
+    public void checkOrderAfterSortedByPopulation() throws JsonSyntaxException, IOException {
+        final String FILE_PATH = "src/test/resources/IndianStateCensus.csv";
+        final String JSON_OUT_PATH = "src/test/resources/sorted_by_population.json";
+        String sortCensusDataByPopulation = censusAnalyzer.sortCensusDataByPopulation(FILE_PATH);
+        IndianStateCensus[] stateCensusArray = new Gson().fromJson(sortCensusDataByPopulation,
+                IndianStateCensus[].class);
+
+        Writer writer = Files.newBufferedWriter(Paths.get(JSON_OUT_PATH));
+        writer.write(sortCensusDataByPopulation);
+        writer.close();
+
+        Assert.assertThat(stateCensusArray[0].getStateName(), CoreMatchers.is("Uttar Pradesh"));
+        Assert.assertThat(stateCensusArray[stateCensusArray.length - 1].getStateName(), CoreMatchers.is("Lakshadweep"));
+
+        // verify entries in the json
+        Reader reader = Files.newBufferedReader(Paths.get(JSON_OUT_PATH));
+        stateCensusArray = new Gson().fromJson(reader, IndianStateCensus[].class);
+        reader.close();
+        Assert.assertEquals(36, stateCensusArray.length);
     }
 }
