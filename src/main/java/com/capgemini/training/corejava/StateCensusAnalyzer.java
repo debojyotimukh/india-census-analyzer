@@ -143,4 +143,15 @@ public final class StateCensusAnalyzer {
         }
         return sortedByPopulation;
     }
+
+    public String sortCensusDataByDensity(String filepath) {
+        String sortedByPopulationDensity = null;
+        try {
+            sortedByPopulationDensity = sortBy(filepath, Comparator.comparing(IndianStateCensus::getDensity).reversed(),
+                    IndianStateCensus.class);
+        } catch (StateCensusAnalyzerException e) {
+            e.getMessage();
+        }
+        return sortedByPopulationDensity;
+    }
 }
