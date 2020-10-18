@@ -5,11 +5,17 @@ import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Comparator;
+import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import com.capgemini.training.iohelper.CSVBuilderException;
 import com.capgemini.training.iohelper.CSVBuilderFactory;
 import com.capgemini.training.iohelper.ICSVBuilder;
+import com.google.gson.Gson;
 
 import org.apache.commons.io.FilenameUtils;
 
@@ -76,6 +82,30 @@ public final class StateCensusAnalyzer {
         } catch (CSVBuilderException csvbe) {
             throw new StateCensusAnalyzerException(csvbe.getMessage());
         }
+    }
+
+    public String sortCensusDataByState(String filepath) throws StateCensusAnalyzerException {
+        if (!FilenameUtils.getExtension(filepath).equalsIgnoreCase("csv"))
+            throw new StateCensusAnalyzerException("Wrong file extension, expected csv!");
+
+        if (!checkSeparator(filepath, ','))
+            throw new StateCensusAnalyzerException("Wrong Delimiter!");
+
+        try (Reader reader = Files.newBufferedReader(Paths.get(filepath));) {
+            ICSVBuilder<IndianStateCensus> csvBuilder = CSVBuilderFactory.createCSVBuilder();
+            List<IndianStateCensus> list = csvBuilder.getLst(reader, IndianStateCensus.class);
+            List<IndianStateCensus> sortedList = list.stream()
+                    .sorted(Comparator.comparing(IndianStateCensus::getStateName)).collect(Collectors.toList());
+
+            return new Gson().toJson(sortedList);
+
+        } catch(IOException ioe){
+            throw new StateCensusAnalyzerException(ioe.getMessage());
+        }
+        catch (CSVBuilderException e) {
+            throw new StateCensusAnalyzerException(e.getMessage());
+        }
+
     }
 
     public static void main(String[] args) throws StateCensusAnalyzerException {
