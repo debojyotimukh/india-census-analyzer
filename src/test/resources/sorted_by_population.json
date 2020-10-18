@@ -1,0 +1,182 @@
+[
+    {
+        "stateName": "Uttar Pradesh",
+        "population": 1.99812341E8,
+        "density": 828.0
+    },
+    {
+        "stateName": "Maharashtra",
+        "population": 1.12374333E8,
+        "density": 365.0
+    },
+    {
+        "stateName": "Bihar",
+        "population": 1.04099452E8,
+        "density": 1102.0
+    },
+    {
+        "stateName": "West Bengal",
+        "population": 9.1276115E7,
+        "density": 1029.0
+    },
+    {
+        "stateName": "Madhya Pradesh",
+        "population": 7.2626809E7,
+        "density": 236.0
+    },
+    {
+        "stateName": "Tamil Nadu",
+        "population": 7.214703E7,
+        "density": 555.0
+    },
+    {
+        "stateName": "Rajasthan",
+        "population": 6.8548437E7,
+        "density": 201.0
+    },
+    {
+        "stateName": "Karnataka",
+        "population": 6.1095297E7,
+        "density": 319.0
+    },
+    {
+        "stateName": "Gujarat",
+        "population": 6.0439692E7,
+        "density": 308.0
+    },
+    {
+        "stateName": "Andhra Pradesh",
+        "population": 4.9577103E7,
+        "density": 303.0
+    },
+    {
+        "stateName": "Odisha",
+        "population": 4.1974219E7,
+        "density": 269.0
+    },
+    {
+        "stateName": "Telangana",
+        "population": 3.5003674E7,
+        "density": 312.0
+    },
+    {
+        "stateName": "Kerala",
+        "population": 3.3406061E7,
+        "density": 859.0
+    },
+    {
+        "stateName": "Jharkhand",
+        "population": 3.2988134E7,
+        "density": 414.0
+    },
+    {
+        "stateName": "Assam",
+        "population": 3.1205576E7,
+        "density": 397.0
+    },
+    {
+        "stateName": "Punjab",
+        "population": 2.7743338E7,
+        "density": 550.0
+    },
+    {
+        "stateName": "Chhattisgarh",
+        "population": 2.5545198E7,
+        "density": 189.0
+    },
+    {
+        "stateName": "Haryana",
+        "population": 2.5351462E7,
+        "density": 573.0
+    },
+    {
+        "stateName": "Delhi",
+        "population": 1.6787941E7,
+        "density": 11297.0
+    },
+    {
+        "stateName": "Jammu and Kashmir",
+        "population": 1.2267032E7,
+        "density": 297.0
+    },
+    {
+        "stateName": "Uttarakhand",
+        "population": 1.0086292E7,
+        "density": 189.0
+    },
+    {
+        "stateName": "Himachal Pradesh",
+        "population": 6864602.0,
+        "density": 123.0
+    },
+    {
+        "stateName": "Tripura",
+        "population": 3673917.0,
+        "density": 350.0
+    },
+    {
+        "stateName": "Meghalaya",
+        "population": 2966889.0,
+        "density": 132.0
+    },
+    {
+        "stateName": "Manipur",
+        "population": 2570390.0,
+        "density": 122.0
+    },
+    {
+        "stateName": "Nagaland",
+        "population": 1978502.0,
+        "density": 119.0
+    },
+    {
+        "stateName": "Goa",
+        "population": 1458545.0,
+        "density": 394.0
+    },
+    {
+        "stateName": "Arunachal Pradesh",
+        "population": 1383727.0,
+        "density": 17.0
+    },
+    {
+        "stateName": "Puducherry",
+        "population": 1247953.0,
+        "density": 2598.0
+    },
+    {
+        "stateName": "Mizoram",
+        "population": 1097206.0,
+        "density": 52.0
+    },
+    {
+        "stateName": "Chandigarh",
+        "population": 1055450.0,
+        "density": 9252.0
+    },
+    {
+        "stateName": "Sikkim",
+        "population": 610577.0,
+        "density": 86.0
+    },
+    {
+        "stateName": "Dadra and Nagar Haveli and Daman and Diu",
+        "population": 585764.0,
+        "density": 970.0
+    },
+    {
+        "stateName": "Andaman and Nicobar Islands",
+        "population": 380581.0,
+        "density": 46.0
+    },
+    {
+        "stateName": "Ladakh",
+        "population": 274000.0,
+        "density": 2.8
+    },
+    {
+        "stateName": "Lakshadweep",
+        "population": 64473.0,
+        "density": 2013.0
+    }
+]

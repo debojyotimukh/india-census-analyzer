@@ -132,4 +132,15 @@ public final class StateCensusAnalyzer {
         }
         return sortedByCode;
     }
+
+    public String sortCensusDataByPopulation(String filepath) {
+        String sortedByPopulation = null;
+        try {
+            sortedByPopulation = sortBy(filepath, Comparator.comparing(IndianStateCensus::getPopulation).reversed(),
+                    IndianStateCensus.class);
+        } catch (StateCensusAnalyzerException e) {
+            e.getMessage();
+        }
+        return sortedByPopulation;
+    }
 }
