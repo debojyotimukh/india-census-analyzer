@@ -110,4 +110,13 @@ public class StateCensusAnalyzerTest {
         reader.close();
         Assert.assertEquals(36, stateCensusArray.length);
     }
+
+    @Test
+    public void checkOrderAfterSortingByPopulationDensity() {
+        final String FILE_PATH = "src/test/resources/IndianStateCensus.csv";
+        String sortCensusDataByState = censusAnalyzer.sortCensusDataByDensity(FILE_PATH);
+        IndianStateCensus[] stateCensusArray = new Gson().fromJson(sortCensusDataByState, IndianStateCensus[].class);
+        Assert.assertThat(stateCensusArray[0].getStateName(), CoreMatchers.is("Delhi"));
+        Assert.assertThat(stateCensusArray[stateCensusArray.length - 1].getStateName(), CoreMatchers.is("Ladakh"));
+    }
 }
