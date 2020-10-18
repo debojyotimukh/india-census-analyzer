@@ -71,7 +71,6 @@ public final class StateCensusAnalyzer {
 
         } catch (NullPointerException npe) {
             throw new StateCensusAnalyzerException("File not Found!");
-
         } catch (IOException ioe) {
             throw new StateCensusAnalyzerException(ioe.getMessage());
         } catch (CSVBuilderException csvbe) {
